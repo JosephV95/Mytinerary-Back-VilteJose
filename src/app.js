@@ -1,10 +1,15 @@
 const express = require("express");
 const router = require("./routes/router")
+// Conectara con la database y enviara lo console.log
+require("./config/database")
 
-const app = express()
+const server = express()
 
-app.use("/api", router)
+// Necesario para que pueda recibir datos(en json) por medio del body en las solicitudes http
+server.use(express.json())
 
-app.listen(4000, ()=>{
+server.use("/api", router)
+
+server.listen(4000, ()=>{
     console.log("Servidor listo en puerto : 4000");
 })
