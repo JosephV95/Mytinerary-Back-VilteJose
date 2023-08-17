@@ -13,7 +13,7 @@ server.use(express.json())
 
 server.use("/api", router)
 
-
+// Middlewares que manejaran los errores
 server.use(notFound)
 server.use(errorHandler)
 
