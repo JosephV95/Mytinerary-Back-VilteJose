@@ -10,7 +10,7 @@ const readCities = async (req, res) => {
       allCities
     })
   } catch (error) {
-    
+    return req.status(500)
   }
 };
 
@@ -27,20 +27,17 @@ const readCity = async (req, res) => {
  }
 };
 
-const createCity = async (req, res) => {
+const createCity = async (req, res, next) => {
   try {
-
-    let payload = await Cities.create(req.body)
+    let newCity = await Cities.create(req.body)
     return res.status(201).json({
-      mensaje: " se creo correctamente XD",
-      payload
+      mensaje: " se creo correctamente",
+      newCity
     })
   
-  } catch (error) {()=>{
-    res.status(500).json({
-      Response: "error"
-    })
-  }}
+  } catch (error) {
+      next()  
+  }
 };
 
 const createMany = async (req, res, next)=>{
@@ -55,7 +52,7 @@ const createMany = async (req, res, next)=>{
   
 }
 
-const updateCity = async (req, res) =>{
+const updateCity = async (req, res, next) =>{
   try {
     let upCity = await Cities.updateOne(req.body)
     await Cities.findByIdAndUpdate(req.params.id, upCity)
@@ -64,7 +61,7 @@ const updateCity = async (req, res) =>{
       
   })
   } catch (error) {
-    
+    next()
   }
 };
 // De forma alternativa se pasara el id por query para el Delete
@@ -76,7 +73,7 @@ const deleteCity = async (req, res) =>{
       mensaje : "se borro",
     })
   } catch (error) {
-    
+    return req.status(500)
   }
 };
 
