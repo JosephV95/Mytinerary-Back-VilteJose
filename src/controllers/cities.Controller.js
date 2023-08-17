@@ -1,4 +1,5 @@
 const Cities = require("../models/Cities.js")
+const {insertMany} = require("mongoose")
 
 // Ya que se conectaran con la base de datos, se deben crear funciones Asincronas
 const readCities = async (req, res) => {
@@ -42,6 +43,18 @@ const createCity = async (req, res) => {
   }}
 };
 
+const createMany = async (req, res, next)=>{
+  try {
+    await Cities.insertMany(req.body.dataCities)
+    return res.status(201).json({
+      message: "Se crearon Correctamente"
+  })
+  } catch (error) {
+    next()
+  }
+  
+}
+
 const updateCity = async (req, res) =>{
   try {
     let upCity = await Cities.updateOne(req.body)
@@ -67,4 +80,4 @@ const deleteCity = async (req, res) =>{
   }
 };
 
-module.exports = { readCities, readCity, createCity, updateCity, deleteCity};
+module.exports = { readCities, readCity, createCity, updateCity, deleteCity, createMany};
