@@ -1,8 +1,7 @@
 const mongoose = require("mongoose");
 
-let uri_link = "mongodb+srv://JosephV:Fate321@cluster0.jqliveq.mongodb.net/?retryWrites=true&w=majority";
-
-mongoose.connect(uri_link)
+// la uri proviene del .env de Dotenv
+mongoose.connect(process.env.URI_LINK)
 .then(()=> console.log("Connect success to DataBase"))
 .catch((err)=> console.log(err))
                

@@ -1,3 +1,4 @@
+const dotenv = require('dotenv/config.js')
 const express = require("express");
 const router = require("./routes/router")
 // Conectara con la database y enviara lo console.log
@@ -17,6 +18,6 @@ server.use("/api", router)
 server.use(notFound)
 server.use(errorHandler)
 
-server.listen(4000, ()=>{
-    console.log("Servidor listo en puerto : 4000");
+server.listen(process.env.PORT , ()=>{
+    console.log(`Servidor listo en puerto : ${process.env.PORT}`);
 })
