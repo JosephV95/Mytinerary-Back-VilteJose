@@ -68,10 +68,15 @@ const updateCity = async (req, res, next) =>{
 const deleteCity = async (req, res) =>{
   try {
     let {id} = req.query;
-    await Cities.findByIdAndDelete({_id:id})
-    return res.status(200).json({
-      mensaje : "se borro",
-    })
+    
+    if (await Cities.findById(id)) {
+      await Cities.findByIdAndDelete({_id:id})
+      return res.status(200).json({
+        mensaje : "se borro correctamente",
+      })
+    } else {
+      return res.json({message: "no existe el id:" + id})
+    }
   } catch (error) {
     return req.status(500)
   }
