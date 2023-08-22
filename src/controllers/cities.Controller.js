@@ -6,7 +6,7 @@ const readCities = async (req, res) => {
   try {
     let allCities = await Cities.find()
     return res.status(200).json({
-      mensaje: "todas las ciudades",
+      mensaje: "All cities",
       allCities
     })
   } catch (error) {
@@ -21,7 +21,6 @@ const readCity = async (req, res) => {
   return res.status(200).json({
     oneCity
   })
-  
  } catch (error) {
   return req.status(500)
  }
@@ -31,10 +30,9 @@ const createCity = async (req, res, next) => {
   try {
     let newCity = await Cities.create(req.body)
     return res.status(201).json({
-      mensaje: " se creo correctamente",
+      mensaje: "se creo correctamente",
       newCity
     })
-  
   } catch (error) {
       next()  
   }
@@ -49,7 +47,6 @@ const createMany = async (req, res, next)=>{
   } catch (error) {
     next()
   }
-  
 }
 
 const updateCity = async (req, res, next) =>{
@@ -57,8 +54,7 @@ const updateCity = async (req, res, next) =>{
     let upCity = await Cities.updateOne(req.body)
     await Cities.findByIdAndUpdate(req.params.id, upCity)
     return res.status(200).json({
-      mensaje : "se actualizo",
-      
+      mensaje : "se actualizo correctamente",
   })
   } catch (error) {
     next()
