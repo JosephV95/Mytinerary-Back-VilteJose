@@ -2,7 +2,8 @@ const dotenv = require('dotenv/config.js')
 const express = require("express");
 const router = require("./routes/router")
 // Conectara con la database y enviara lo console.log
-require("./config/database")
+require("./config/database");
+const cors = require('cors');
 
 const server = express()
 
@@ -17,6 +18,8 @@ server.use("/api", router)
 // Middlewares que manejaran los errores
 server.use(notFound)
 server.use(errorHandler)
+
+server.use(cors());
 
 server.listen(process.env.PORT , ()=>{
     console.log(`Servidor listo en puerto : ${process.env.PORT}`);
