@@ -30,7 +30,7 @@ const createCity = async (req, res, next) => {
   try {
     let newCity = await Cities.create(req.body)
     return res.status(201).json({
-      mensaje: "se creo correctamente",
+      mensaje: "It was created correctly",
       newCity
     })
   } catch (error) {
@@ -51,11 +51,12 @@ const createMany = async (req, res, next)=>{
 
 const updateCity = async (req, res, next) =>{
   try {
-    let upCity = await Cities.updateOne(req.body)
-    await Cities.findByIdAndUpdate(req.params.id, upCity)
-    return res.status(200).json({
-      mensaje : "se actualizo correctamente",
-  })
+    let upCity = await Cities.findByIdAndUpdate(req.params.id, req.body,  {new: true});
+
+    if (upCity){
+      return res.status(200).json({response: upCity})
+    } else { return res.status(400).json({response: "Not Found"})}
+    
   } catch (error) {
     next()
   }
@@ -68,10 +69,10 @@ const deleteCity = async (req, res) =>{
     if (await Cities.findById(id)) {
       await Cities.findByIdAndDelete({_id:id})
       return res.status(200).json({
-        mensaje : "se borro correctamente",
+        mensaje : "Deleted successfully",
       })
     } else {
-      return res.json({message: "no existe el id:" + id})
+      return res.json({message: "The id: " + id + " does not exist"})
     }
   } catch (error) {
     return req.status(500)
