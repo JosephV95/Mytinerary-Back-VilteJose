@@ -4,7 +4,12 @@ const {insertMany} = require("mongoose")
 // Ya que se conectaran con la base de datos, se deben crear funciones Asincronas
 const readCities = async (req, res) => {
   try {
-    let allCities = await Cities.find()
+    let queries = {};
+    if (req.query.city) {
+      queries.city = new RegExp(req.query.city, "i") // con el flag ¨i" ignora mayusculas y minusculas
+    }
+    let allCities = await Cities.find( queries)
+
     return res.status(200).json({
       mensaje: "All cities",
       allCities
@@ -42,7 +47,7 @@ const createMany = async (req, res, next)=>{
   try {
     await Cities.insertMany(req.body.dataCities)
     return res.status(201).json({
-      message: "Se crearon Correctamente"
+      message: "They were created successfully"
   })
   } catch (error) {
     next()
