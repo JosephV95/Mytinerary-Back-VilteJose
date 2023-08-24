@@ -6,7 +6,7 @@ const readCities = async (req, res) => {
   try {
     let queries = {};
     if (req.query.city) {
-      queries.city = new RegExp(req.query.city, "i") // con el flag ¨i" ignora mayusculas y minusculas
+      queries.city = new RegExp( "^"+ req.query.city, "i") // con el flag ¨i" se ignora mayusculas y minusculas y el ^ indica el comienzo exacto del query
     }
     let allCities = await Cities.find( queries)
 
