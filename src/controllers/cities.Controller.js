@@ -35,7 +35,7 @@ const createCity = async (req, res, next) => {
   try {
     let newCity = await Cities.create(req.body)
     return res.status(201).json({
-      mensaje: "It was created correctly",
+      message: "It was created correctly",
       newCity
     })
   } catch (error) {
