@@ -8,7 +8,7 @@ const readCities = async (req, res) => {
     if (req.query.city) {
       queries.city = new RegExp( "^"+ req.query.city, "i") // con el flag ¨i" se ignora mayusculas y minusculas y el ^ indica el comienzo exacto del query
     }
-    let allCities = await Cities.find( queries)
+    let allCities = await Cities.find( queries).populate('_itineraries')
 
     return res.status(200).json({
       mensaje: "All cities",
