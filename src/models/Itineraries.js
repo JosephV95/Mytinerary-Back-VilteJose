@@ -8,7 +8,6 @@ const schemaItinery = new Schema({
     duration: {type: String, required: true},
     comments: [{type: String, required: false}] ,
     _cities: {type: Types.ObjectId, ref: 'Cities'},
-    likes: 0
 })
 
 const Itineraries = model("Itineraries", schemaItinery)
