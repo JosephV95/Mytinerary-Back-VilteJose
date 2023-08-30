@@ -7,7 +7,8 @@ const schemaItinery = new Schema({
     price: {type: Number, required: true},
     duration: {type: String, required: true},
     comments: [{type: String, required: false}] ,
-    _cities: {type: Types.ObjectId, ref: 'Cities'}
+    _cities: {type: Types.ObjectId, ref: 'Cities'},
+    likes: 0
 })
 
 const Itineraries = model("Itineraries", schemaItinery)
