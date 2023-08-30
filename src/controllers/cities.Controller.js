@@ -56,7 +56,8 @@ const createMany = async (req, res, next)=>{
 
 const updateCity = async (req, res, next) =>{
   try {
-    let upCity = await Cities.findByIdAndUpdate(req.params.id, req.body,  {new: true});
+    //?el findByIdAndUpdate recibe el id, y el cuerpo con la nueva data
+    let upCity = await Cities.findByIdAndUpdate(req.params.id, req.body,  {new: true}); //?con el new se devolvera la city actualizada
 
     if (upCity){
       return res.status(200).json({response: upCity})
