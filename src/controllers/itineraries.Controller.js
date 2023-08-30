@@ -1,4 +1,29 @@
 const Itineraries = require('../models/Itineraries.js')
+const Cities = require('../models/Cities.js')
+
+const createItinerary = async (req, res, next) =>{
+    try {
+        let {id} = req.query
+
+        let cityFound = await Cities.findById( id )
+        
+        let newItinerary = await Itineraries.create( req.body ) //Aqui solo devolvera un estado de si se creo o no, por eso no es conveniente guardarlo en una variable
+        
+        // Aqui se le agregara el itinerario a la city actulizando su informacion
+        await cityFound.updateOne({ _itineraries: [...cityFound._itineraries, newItinerary]}) //! con el spread operator se ira agregando un nuevo itinerario en su array de itinerarios
+
+        // Se debe volver a buscar la city con la nueva informacion agregada
+        let cityUpdate = await Cities.findById(id).populate('_itineraries');
+
+        return res.status(201).json({
+            message: "It was created successfully",
+            cityUpdate
+        })
+    } catch (error) {
+        // console.log(error.message);
+        next()
+    }
+}
 
 const readItineraries = async (req, res) =>{
     try {
@@ -29,17 +54,6 @@ const readItinerary = async (req, res) =>{
     }
 }
 
-const createItinerary = async (req, res, next) =>{
-    try {
-        let newItinerary = await Itineraries.create( req.body)
-        return res.status(201).json({
-            message: "It was created successfully",
-            newItinerary
-        })
-    } catch (error) {
-        next()
-    }
-}
 
 const createMany = async(req, res, next) =>{
     try {

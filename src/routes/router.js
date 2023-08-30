@@ -1,6 +1,7 @@
 const express = require("express");
 const {readCities, readCity, createCity, updateCity, deleteCity, createMany} = require('../controllers/cities.Controller');
 const {verifyDataCity, verifyDataMany} = require("../middlewares/verifyDataCity");
+const { createItinerary, readItineraries } = require("../controllers/itineraries.Controller");
 
 const router = express.Router();
 
@@ -11,5 +12,7 @@ router.post("/cities/many", verifyDataMany, createMany);
 router.put("/cities/:id",verifyDataCity,  updateCity);
 router.delete("/cities", deleteCity);
 
+router.post("/itineraries", createItinerary);
+router.get("/itineraries", readItineraries);
 
 module.exports = router
