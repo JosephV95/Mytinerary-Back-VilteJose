@@ -30,13 +30,26 @@ const readItineraries = async (req, res) =>{
         let queries = {};
         if (req.query.name) {
             queries.name = new RegExp( "^" +  req.query.name, "i")
+        } else if (req.query.city) {
+            queries.city = new RegExp( "^" +  req.query.city, "i")
         }
         
         let itineraries = await Itineraries.find( queries)
-
-        return res.status(200).json({
-            itineraries
-        })
+        
+        //* Filtro de itinerarios segun la ciudad
+        let itineraryForCity = await Cities.findOne(queries).populate('_itineraries')
+        
+        if (queries.city) {
+            return res.status(200).json({
+                city: itineraryForCity.city,
+                nation: itineraryForCity.nation,
+                itineraries: itineraryForCity._itineraries
+            })
+        } else {
+            return res.status(200).json({
+                itineraries
+            })
+        }
     } catch (error) {
         res.status(500)
     }
@@ -48,7 +61,7 @@ const readItinerary = async (req, res) =>{
 
     if (!oneItinerary) {
         return res.json({
-            mens: "no existe"
+            message: "Does not exist"
         })
     } else {
         return res.status(200).json({
@@ -58,15 +71,6 @@ const readItinerary = async (req, res) =>{
        
     } catch (error) {
         return res.status(500)
-    }
-}
-
-
-const createMany = async(req, res, next) =>{
-    try {
-        
-    } catch (error) {
-        next()
     }
 }
 
@@ -103,4 +107,4 @@ const deleteItinenary = async (req, res) =>{
     }
 }
 
-module.exports = {readItineraries, readItinerary, createItinerary, createMany, updateItinerary, deleteItinenary}
+module.exports = {readItineraries, readItinerary, createItinerary, updateItinerary, deleteItinenary}
