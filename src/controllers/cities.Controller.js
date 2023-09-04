@@ -22,7 +22,7 @@ const readCities = async (req, res) => {
 const readCity = async (req, res) => {
  try {
   
-  let oneCity = await Cities.findById(req.params.id)
+  let oneCity = await Cities.findById(req.params.id).populate('_itineraries')
   return res.status(200).json({
     oneCity
   })
