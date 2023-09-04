@@ -27,29 +27,29 @@ const createItinerary = async (req, res, next) =>{
 
 const readItineraries = async (req, res) =>{
     try {
-        // let queries = {};
-        // if (req.query.name) {
-        //     queries.name = new RegExp( "^" +  req.query.name, "i")
-        // } else if (req.query.city) {
-        //     queries.city = new RegExp( "^" +  req.query.city, "i")
-        // }
+        let queries = {};
+        if (req.query.name) {
+            queries.name = new RegExp( "^" +  req.query.name, "i")
+        } else if (req.query.city) {
+            queries.city = new RegExp( "^" +  req.query.city, "i")
+        }
         
-        let itineraries = await Itineraries.find( )
+        let itineraries = await Itineraries.find(queries )
         
         //* Filtro de itinerarios segun la ciudad
-        // let itineraryForCity = await Cities.findOne(queries).populate('_itineraries')
+        let itineraryForCity = await Cities.findOne(queries).populate('_itineraries')
         
-        // if (queries.city) {
-        //     return res.status(200).json({
-        //         city: itineraryForCity.city,
-        //         nation: itineraryForCity.nation,
-        //         itineraries: itineraryForCity._itineraries
-        //     })
-        // } else {
+        if (queries.city) {
+            return res.status(200).json({
+                city: itineraryForCity.city,
+                nation: itineraryForCity.nation,
+                itineraries: itineraryForCity._itineraries
+            })
+        } else {
             return res.status(200).json({
                 itineraries
             })
-        // }
+        }
     } catch (error) {
         res.status(500)
     }
