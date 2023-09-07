@@ -47,4 +47,11 @@ const hashPassword = (req, res, next) => {
     }
 }
 
-module.exports = {verifyAuthData,  hashPassword}
+//! Verificar password para login
+const verifyPassword = (passBase, passHashed)=>{
+    const verify = bcrypt.compareSync(passBase, passHashed) //? Retornara un boolean
+
+    return verify
+}
+
+module.exports = {verifyAuthData,  hashPassword, verifyPassword}

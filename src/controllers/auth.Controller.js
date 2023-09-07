@@ -1,3 +1,4 @@
+const { verifyPassword } = require("../middlewares/authVerifications")
 const Users = require("../models/Users")
 
 const registerUser = async(req, res) =>{
@@ -19,4 +20,28 @@ const registerUser = async(req, res) =>{
     }
 }
 
-module.exports = { registerUser }
+const loginUser = async(req, res)=>{
+    try {
+        const {password, email} = req.body;
+
+        const userFound = await Users.findOne({email: email})
+
+        if(userFound){
+            //* Si encuentra al usuario (por email) pasara a comparar las contraseñas
+            if(verifyPassword(password, userFound.password)){
+                return res.status(200).json({
+                    message: "user logeado correctamente",
+                    userFound
+                })
+            } else {
+                return res.status(400).json({message: "Wrong password"});  
+            }
+        } else{
+            res.status(400).json({message: "User not found"});
+        }
+    } catch (error) {
+        res.status(400).json({message: error.message})
+    }
+}
+
+module.exports = { registerUser, loginUser }
