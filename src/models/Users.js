@@ -7,6 +7,8 @@ const schemaUser = new Schema({
     password: {type: String, required: true} ,
     photo: {type: String, required: true} ,
     nation: {type: String, required: true}
+}, {
+    timestamps: true
 })
 
 const Users = model("Users", schemaUser)
