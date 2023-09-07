@@ -19,4 +19,6 @@ router.get("/itineraries/city/:id",  getItinerariesByCity);
 router.put("/itineraries/:id", updateItinerary);
 router.delete("/itineraries", deleteItinenary);
 
+router.use("/user"); //! agrego el router de auth (quedaria '/api/user/...)
+
 module.exports = router
