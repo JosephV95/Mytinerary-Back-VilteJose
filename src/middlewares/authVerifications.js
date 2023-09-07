@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const bcrypt = require('bcrypt');
 
 const userSchema = Joi.object({
     name: Joi.string().required() ,
@@ -31,4 +32,19 @@ const verifyAuthData = (req, res, next)=>{
     next()
 }
 
-module.exports = {verifyAuthData}
+//! Hashear el password de user
+const hashPassword = (req, res, next) => {
+    try {
+        const passwordBase = req.body.password
+        const passwordHashed = bcrypt.hashSync( passwordBase, 10) //! el saltRounds por defecto es 10, a mayor numero mas tardara en hacer el hash
+
+        req.body.password = passwordHashed //* Se setea el password con la pass hasheada
+
+        next()
+
+    } catch (error) {
+        res.status(500).json({error: error})
+    }
+}
+
+module.exports = {verifyAuthData,  hashPassword}
