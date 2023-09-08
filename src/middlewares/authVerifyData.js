@@ -19,7 +19,7 @@ const userSchema = Joi.object({
 const verifyAuthData = (req, res, next)=>{
     let payload = req.body;
     
-    const userValidated = userSchema.validate(payload)
+    const userValidated = userSchema.validate(payload, {abortEarly: false}); //! con abortEarly se impide que solo devuelva el primer error y devuelva el array con todos los errores
 
     // if que se mostrara en caso de errores
     if(userValidated.error){
