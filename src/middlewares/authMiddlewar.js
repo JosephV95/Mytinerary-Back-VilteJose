@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const Users = require("../models/Users")
+const jwt = require('jsonwebtoken')
 
 //! Hashear el password de user
 const hashPassword = (req, res, next) => {
@@ -23,7 +24,7 @@ const verifyUserExist = async(req, res, next)=>{
         const userFound = await Users.findOne({email: email})
 
         if(userFound){
-            req.user = userFound;  //todo Se crea el query "user" que contendra al usuario encontrado y asi evitar volver hacer la peticion más adelante
+            req.user = userFound;  //todo Se puede guardar al Usuario en la petición creando el query "user", y asi evitar volver hacer la peticion más adelante
             
             next();  //* en caso de encontrar al usuario(por email) se pasara al siguiente middleware (donde se compara las pass)
 
@@ -44,5 +45,20 @@ const verifyPassword = (req, res, next)=>{
         res.status(400).json({ message: "Wrong password"})
     }
 }
+//! crear el Token para el user
+const generateToken = (req, res, next)=>{
+    try {
+        let secretKey = "claveSecretaPrivada"; //* el token necesita una clave secreta, luego lo pasamos como 2do parametro 
+        
+        //* sign es para firmar/iniciar el token -- el 1er paramatro sera el contenido del payload/cuerpo del token
+        let token = jwt.sign({email: req.body.email}, secretKey, {expiresIn: 60*5}) //*el 3er parametro seria el tiempo de vida del token, es opcional(aqui seria 5min)
 
-module.exports = { hashPassword, verifyUserExist, verifyPassword }
+        req.token = token //todo se guarda el token en la request para usarlo luego
+        next()
+        
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    }
+}
+
+module.exports = { hashPassword, verifyUserExist, verifyPassword, generateToken }

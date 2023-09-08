@@ -1,4 +1,3 @@
-const { verifyPassword } = require("../middlewares/authMiddlewar")
 const Users = require("../models/Users")
 
 const registerUser = async(req, res) =>{
@@ -22,7 +21,15 @@ const registerUser = async(req, res) =>{
 
 const loginUser = async(req, res)=>{
     try {
-        
+        //! despues de pasar los middlewares retornara el token y toda la info del user que necesite
+        res.status(200).json({
+            message: "Se logueo correctamente",
+            token: req.token,
+            user: {
+                email: req.user.email,
+                _id: req.user._id
+            }
+        })
     } catch (error) {
         res.status(400).json({message: error.message})
     }
