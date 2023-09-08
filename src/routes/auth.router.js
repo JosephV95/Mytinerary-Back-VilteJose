@@ -1,11 +1,12 @@
 const express = require('express');
 const { registerUser, loginUser } = require('../controllers/auth.Controller');
-const { verifyAuthData, hashPassword } = require('../middlewares/authVerifications');
+const { hashPassword, verifyUserExist, verifyPassword } = require('../middlewares/authMiddlewar');
+const { verifyAuthData } = require('../middlewares/authVerifyData');
 
 const routerAuth = express.Router()
 
-routerAuth.post('/register',verifyAuthData, hashPassword, registerUser ),
-routerAuth.post('/login', loginUser)
+routerAuth.post('/register', verifyAuthData, hashPassword, registerUser ),
+routerAuth.post('/login', verifyUserExist, verifyPassword, loginUser)
 
 
 module.exports = routerAuth;
