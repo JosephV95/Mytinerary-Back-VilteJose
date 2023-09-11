@@ -2,6 +2,9 @@ const bcrypt = require('bcrypt');
 const Users = require("../models/Users")
 const jwt = require('jsonwebtoken')
 
+const passport = require('passport');
+const {Strategy, ExtractJwt} = require('passport-jwt')
+
 //! Hashear el password de user
 const hashPassword = (req, res, next) => {
     try {
@@ -61,4 +64,26 @@ const generateToken = (req, res, next)=>{
     }
 }
 
-module.exports = { hashPassword, verifyUserExist, verifyPassword, generateToken }
+//* Autenticacion de un User Logeado segun un token guardado -- Todo retornara un objeto que se debe manejar en el router
+const passportVerificator = passport.use(
+    //todo  Strategy ya es un modelo de passport-jwt que desencriptara el token 
+    new Strategy({
+        jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+        secretOrKey: "claveSecretaPrivada"
+    }, async( payload , done)=> {  
+        //* payload tendra la data del token que se desencripto. Y done es similar a next() pero permite setear algunos valores
+        try {
+            let userFound = await Users.findOne( {email: payload.email} )
+
+            if (userFound) {
+                return done(null, userFound); //? el 2do parametro es lo que mandara en req.user
+            } else {
+                return done(null);
+            }
+        } catch (error) {
+            return done(error)
+        }
+    })
+)
+
+module.exports = { hashPassword, verifyUserExist, verifyPassword, generateToken, passportVerificator }
