@@ -26,7 +26,9 @@ const loginUser = async(req, res)=>{
             message: "Se logueo correctamente",
             token: req.token,
             user: {
+                name: req.user.name,
                 email: req.user.email,
+                photo: req.user.photo,
                 _id: req.user._id
             }
         })
@@ -42,7 +44,9 @@ const userAuthenticated = async(req, res)=>{
             message: "Se autentico el usuario correctamente",
             token: req.token,
             user: {
+                name: req.user.name,
                 email: req.user.email,
+                photo: req.user.photo,
                 _id: req.user._id
             }
         })
@@ -53,7 +57,7 @@ const userAuthenticated = async(req, res)=>{
 
 const userLogout = async (req, res) =>{
     try {
-        res.status(200).json({ mesage: "User Logout correctly"})
+        res.status(200).json({ mesage: "User Logout correctly" })
     } catch (error) {
         res.status(500).json({ message: error.message})
     }
