@@ -6,7 +6,7 @@ const registerUser = async(req, res) =>{
         let userExists = await Users.findOne( {email: payload.email}) //! Verifica si ese email ya posee una cuenta
 
         if(userExists){
-            return res.status(403).json({message: "User already exists"})  //* status 403 forbiden (indica que esta prohibido)
+            return res.status(403).json({message: "The email "+ payload.email +" already has an account"})  //* status 403 forbiden (indica que esta prohibido)
         }
 
         const userCreated = await Users.create(payload)
@@ -25,6 +25,7 @@ const loginUser = async(req, res)=>{
         res.status(200).json({
             message: "Se logueo correctamente",
             token: req.token,
+            success: true,
             user: {
                 name: req.user.name,
                 email: req.user.email,
