@@ -54,7 +54,7 @@ const generateToken = (req, res, next)=>{
         let secretKey = "claveSecretaPrivada"; //* el token necesita una clave secreta, luego lo pasamos como 2do parametro 
         
         //* sign es para firmar/iniciar el token -- el 1er paramatro sera el contenido del payload/cuerpo del token
-        let token = jwt.sign({email: req.body.email}, secretKey) //*el 3er parametro seria el tiempo de vida del token, es opcional(aqui seria 5min)
+        let token = jwt.sign({email: req.body.email}, secretKey) //*el 3er parametro seria el tiempo de vida del token, es opcional(aqui seria 5min) {expiresIn: 60*5}
 
         req.token = token //todo se guarda el token en la request para usarlo luego
         next()
