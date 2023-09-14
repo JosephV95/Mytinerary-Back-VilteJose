@@ -12,7 +12,10 @@ const registerUser = async(req, res) =>{
         const userCreated = await Users.create(payload)
 
         return res.status(200).json({
-            message: "User created correctly", userCreated
+            message: "User created correctly",
+            success: true,
+            token: req.token,
+            userCreated
         })
     } catch (error) {
         res.status(200).json({ message: error.message})        
