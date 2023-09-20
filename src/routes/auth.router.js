@@ -1,5 +1,5 @@
 const express = require('express');
-const { registerUser, loginUser, userAuthenticated, userLogout } = require('../controllers/auth.Controller');
+const { registerUser, loginUser, userAuthenticated, userLogout, readUsers, readUser, updateUser, deleteUser } = require('../controllers/auth.Controller');
 const { hashPassword, verifyUserExist, verifyPassword, generateToken, passportVerificator } = require('../middlewares/authMiddlewar');
 const { verifyAuthData } = require('../middlewares/authVerifyData');
 
@@ -10,7 +10,13 @@ routerAuth.post('/login', verifyUserExist, verifyPassword, generateToken, loginU
                                 //! con 'authenticate' se indicara que trabaje con jwt y que no use session de Express
 routerAuth.post('/authenticate', passportVerificator.authenticate("jwt", {session: false}), generateToken, userAuthenticated), 
                         //! Verificara si esta logeado para poder Desloguarse
-routerAuth.post('/logout', passportVerificator.authenticate("jwt", {session: false}), userLogout) 
+routerAuth.post('/logout', passportVerificator.authenticate("jwt", {session: false}), userLogout) ,
+
+routerAuth.get('/', readUsers)
+routerAuth.get('/:id', readUser)
+routerAuth.put('/:id', updateUser)
+routerAuth.delete('/:id', deleteUser)
+
 
 
 module.exports = routerAuth;

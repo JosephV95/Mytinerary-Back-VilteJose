@@ -67,4 +67,63 @@ const userLogout = async (req, res) =>{
     }
 }
 
-module.exports = { registerUser, loginUser, userAuthenticated, userLogout }
+// todo   Endpoints extras
+const readUsers = async(req, res) =>{
+    try {
+        const allUsers = await Users.find()
+
+        return res.status(200).json({
+            allUsers
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Error al traer los users"})
+    }
+}
+const readUser = async (req,res)=>{
+    try {
+        const oneUser = await Users.findById(req.params.id)
+        return res.status(200).json({
+            oneUser
+        })
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Error al traer al user"})
+    }
+}
+const updateUser = async(req,res) =>{
+    try {
+        let upUser =await Users.findByIdAndUpdate( req.params.id, req.body, {new:true})
+
+        if (upUser) {
+            return res.status(200).json({
+                upUser
+            })
+        } else {
+            return res.status(400).json({message: "El usuario no existe"})
+        }
+    } catch (error) {
+        
+    }
+}
+const deleteUser = async(req,res) =>{
+    try {
+        let {id} = req.params
+        if (await Users.findById(id)) {
+            await Users.findByIdAndDelete(id)
+            return res.status(200).json({
+                message: "Se borro al usuario correctamente",
+                id: id
+            })
+        } else {
+            return res.status(500).json({
+                message: "El id: " + id +" no existe"
+            })
+        }
+        
+    } catch (error) {
+        res.status(500).json({message: "El id no se puede borrar porque no existe"})
+    }
+}
+module.exports = { registerUser, loginUser, userAuthenticated, userLogout,  readUser,readUsers,updateUser,deleteUser }
