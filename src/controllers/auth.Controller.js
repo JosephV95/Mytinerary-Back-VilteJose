@@ -67,7 +67,7 @@ const userLogout = async (req, res) =>{
     }
 }
 
-// todo   Endpoints extras
+// todo   Endpoints extras para el CRUD de usuarios
 const readUsers = async(req, res) =>{
     try {
         const allUsers = await Users.find()
@@ -104,7 +104,7 @@ const updateUser = async(req,res) =>{
             return res.status(400).json({message: "El usuario no existe"})
         }
     } catch (error) {
-        
+        res.status(500).json({ message: "Error al actualizat al user"})
     }
 }
 const deleteUser = async(req,res) =>{
