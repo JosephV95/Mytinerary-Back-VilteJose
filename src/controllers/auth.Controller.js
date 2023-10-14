@@ -52,7 +52,7 @@ const userAuthenticated = async(req, res)=>{
 
 const userLogout = async (req, res) =>{
     try {
-        res.status(200).json({ mesage: "User Logout correctly" })
+        res.status(200).json({ message: "User Logout correctly" })
     } catch (error) {
         res.status(500).json({ message: error.message})
     }
