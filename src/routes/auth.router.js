@@ -10,11 +10,11 @@ routerAuth.post('/login', verifyUserExist, verifyPassword, generateToken, loginU
                                 //! con 'authenticate' se indicara que trabaje con jwt y que no use session de Express
 routerAuth.post('/authenticate', passportVerificator.authenticate("jwt", {session: false}), generateToken, userAuthenticated), 
                         //! Verificara si esta logeado para poder Desloguarse
-routerAuth.post('/logout', passportVerificator.authenticate("jwt", {session: false}), userLogout) ,
+routerAuth.post('/logout',  userLogout), //? quite la verificación del usuario porque no permitia la respuesta del logout y daba un error en el navegador
 
-routerAuth.get('/', readUsers)
-routerAuth.get('/:id', readUser)
-routerAuth.put('/:id', updateUser)
+routerAuth.get('/', readUsers),
+routerAuth.get('/:id', readUser),
+routerAuth.put('/:id', updateUser),
 routerAuth.delete('/:id', deleteUser)
 
 
