@@ -75,7 +75,7 @@ const deleteCity = async (req, res) =>{
     if (await Cities.findById(id)) {
       await Cities.findByIdAndDelete({_id:id})
       return res.status(200).json({
-        mensaje : "Deleted successfully",
+        message : "The city was erased",
       })
     } else {
       return res.json({message: "The id: " + id + " does not exist"})
