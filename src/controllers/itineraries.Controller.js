@@ -57,6 +57,9 @@ const readItineraries = async (req, res) =>{
 const getItinerariesByCity = async(req, res)=>{
     try {
         let itineraryCity = await Cities.findById(req.params.id).populate('_itineraries')
+        .populate({path:'_itineraries', populate: {path: '_userCreator' , select: '_id name email photo'}})
+        //todo segundo populate que mostrara al usuarioCreador del itinerario. con select selecciono que datos me regresa el populate
+
         return res.status(200).json({
             city: itineraryCity.city,
             itineraries: itineraryCity._itineraries
