@@ -12,6 +12,7 @@ const schemaItinery = new Schema({
     likes: {type:Number},
     hastag:[{type: String}],
     _cities: {type: Types.ObjectId, ref: 'Cities'},
+    _userCreator: {type: Types.ObjectId, ref: 'Users'}
 })
 
 const Itineraries = model("Itineraries", schemaItinery)
