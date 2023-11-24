@@ -51,7 +51,7 @@ const verifyPassword = (req, res, next)=>{
 //! crear el Token para el user
 const generateToken = (req, res, next)=>{
     try {
-        let secretKey = "claveSecretaPrivada"; //* el token necesita una clave secreta, luego lo pasamos como 2do parametro 
+        let secretKey = process.env.SECRETKEY; //! el token necesita una clave secreta, luego lo pasamos como 2do parametro (lo reemplaze por una variable en el .env) 
         
         //* sign es para firmar/iniciar el token -- el 1er paramatro sera el contenido del payload/cuerpo del token
         let token = jwt.sign({email: req.body.email}, secretKey) //*el 3er parametro seria el tiempo de vida del token, es opcional(aqui seria 5min) {expiresIn: 60*5}
@@ -69,7 +69,7 @@ const passportVerificator = passport.use(
     //todo  Strategy ya es un modelo de passport-jwt que desencriptara el token 
     new Strategy({
         jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-        secretOrKey: "claveSecretaPrivada"
+        secretOrKey: process.env.SECRETKEY //! Clave que esta en el .env
     }, async( payload , done)=> {  
         //* payload tendra la data del token que se desencripto. Y done es similar a next() pero permite setear algunos valores
         try {
