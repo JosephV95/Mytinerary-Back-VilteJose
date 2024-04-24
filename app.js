@@ -1,15 +1,15 @@
 const dotenv = require('dotenv/config.js')
 const express = require("express");
-const router = require("./routes/router")
+const router = require("./src/routes/router.js")
 const cors = require("cors");
 // Conectara con la database y enviara lo console.log
-require("./config/database");
+require("./src/config/database.js");
 
 
 const server = express()
 
-const notFound = require("./middlewares/notFound.js")
-const errorHandler = require("./middlewares/errorHandler")
+const notFound = require("./src/middlewares/notFound.js")
+const errorHandler = require("./src/middlewares/errorHandler.js")
 
 // Necesario para que pueda recibir datos(en json) por medio del body en las solicitudes http
 server.use(express.json())
